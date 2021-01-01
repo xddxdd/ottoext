@@ -3,8 +3,8 @@ package looptask
 import (
 	"errors"
 
-	"fknsrs.biz/p/ottoext/loop"
 	"github.com/robertkrimen/otto"
+	"github.com/xddxdd/ottoext/loop"
 )
 
 // IdleTask is designed to sit in a loop and keep it active, without doing any

@@ -6,16 +6,16 @@ import (
 	"io"
 	"io/ioutil"
 
-	"fknsrs.biz/p/ottoext/loop"
-	"fknsrs.biz/p/ottoext/loop/looptask"
-	erepl "fknsrs.biz/p/ottoext/repl"
 	"github.com/robertkrimen/otto"
 	"github.com/robertkrimen/otto/repl"
+	"github.com/xddxdd/ottoext/loop"
+	"github.com/xddxdd/ottoext/loop/looptask"
+	erepl "github.com/xddxdd/ottoext/repl"
 
-	"fknsrs.biz/p/ottoext/fetch"
-	"fknsrs.biz/p/ottoext/process"
-	"fknsrs.biz/p/ottoext/promise"
-	"fknsrs.biz/p/ottoext/timers"
+	"github.com/xddxdd/ottoext/fetch"
+	"github.com/xddxdd/ottoext/process"
+	"github.com/xddxdd/ottoext/promise"
+	"github.com/xddxdd/ottoext/timers"
 )
 
 var (

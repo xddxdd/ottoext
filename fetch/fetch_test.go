@@ -9,7 +9,7 @@ import (
 
 	"github.com/robertkrimen/otto"
 
-	"fknsrs.biz/p/ottoext/loop"
+	"github.com/xddxdd/ottoext/loop"
 )
 
 func must(err error) {

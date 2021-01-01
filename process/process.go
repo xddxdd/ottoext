@@ -1,4 +1,4 @@
-package process // import "fknsrs.biz/p/ottoext/process"
+package process // import "github.com/xddxdd/ottoext/process"
 
 import (
 	"os"
