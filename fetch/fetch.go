@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"strings"
 
-	"github.com/GeertJohan/go.rice"
+	rice "github.com/GeertJohan/go.rice"
 	"github.com/robertkrimen/otto"
 
 	"github.com/xddxdd/ottoext/loop"
@@ -108,10 +108,9 @@ func DefineWithHandler(vm *otto.Otto, l *loop.Loop, h http.Handler) error {
 		reqHeaders := make(map[string]string)
 
 		reqHdrObj := mustValue(jsReq.Get("headers")).Object()
-		// TODO: Get list of headers from jsReq object (idea: add 'list' method to headers.js?)
-		// Alternatively: iterate such as in: for (var k in r.headers._headers) { console.log(k + ':', r.headers.get(k)); }
-		for _, key := range []string{"Authorization" , "X-Amz-Date", "Content-MD5", "Content-Type", "X-Amz-User-Agent", "X-Amz-Content-Sha256"} {
+		reqHdrArr := mustValue(reqHdrObj.Get("_headers")).Object()
 
+		for _, key := range reqHdrArr.Keys() {
 			var v otto.Value
 			var err error
 			if v, err = reqHdrObj.Call("get", key); err == nil {

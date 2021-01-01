@@ -117,6 +117,44 @@ func TestFetchHeaders(t *testing.T) {
 	<-ch
 }
 
+func TestFetchWithHeaders(t *testing.T) {
+	m := http.NewServeMux()
+	m.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("user-header", r.Header.Get("user-header"))
+
+		w.Write([]byte("hello"))
+	})
+	s := httptest.NewServer(m)
+	defer s.Close()
+
+	vm := otto.New()
+	l := loop.New(vm)
+
+	if err := Define(vm, l); err != nil {
+		panic(err)
+	}
+
+	ch := make(chan bool, 1)
+
+	if err := vm.Set("__capture", func(s string) {
+		defer func() { ch <- true }()
+
+		if s != `{"user-header":["test"]}` {
+			panic(fmt.Errorf("expected headers to contain test"))
+		}
+	}); err != nil {
+		panic(err)
+	}
+
+	must(l.EvalAndRun(`fetch('` + s.URL + `', {headers:{"user-header":"test"}}).then(function(r) {
+    return __capture(JSON.stringify({
+      'user-header': r.headers.getAll('user-header'),
+    }));
+  })`))
+
+	<-ch
+}
+
 func TestFetchJSON(t *testing.T) {
 	m := http.NewServeMux()
 	m.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
