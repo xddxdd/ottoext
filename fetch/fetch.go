@@ -7,7 +7,6 @@ import (
 	"net/http/httptest"
 	"strings"
 
-	rice "github.com/GeertJohan/go.rice"
 	"github.com/robertkrimen/otto"
 
 	"github.com/xddxdd/ottoext/loop"
@@ -74,13 +73,16 @@ func Define(vm *otto.Otto, l *loop.Loop) error {
 	return DefineWithHandler(vm, l, nil)
 }
 
+//go:embed js/bundle.js
+var jsData string
+
+//go:embed js/bundle.js.map
+var smData string
+
 func DefineWithHandler(vm *otto.Otto, l *loop.Loop, h http.Handler) error {
 	if err := promise.Define(vm, l); err != nil {
 		return err
 	}
-
-	jsData := rice.MustFindBox("dist-fetch").MustString("bundle.js")
-	smData := rice.MustFindBox("dist-fetch").MustString("bundle.js.map")
 
 	s, err := vm.CompileWithSourceMap("fetch-bundle.js", jsData, smData)
 	if err != nil {
