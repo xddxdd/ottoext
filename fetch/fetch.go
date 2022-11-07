@@ -11,6 +11,8 @@ import (
 
 	"github.com/xddxdd/ottoext/loop"
 	"github.com/xddxdd/ottoext/promise"
+
+	_ "embed"
 )
 
 func mustValue(v otto.Value, err error) otto.Value {
